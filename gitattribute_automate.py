@@ -11,24 +11,7 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 file_content = """# --- LANGUAGE CLASSIFICATION FIXES ---
 *.ipynb linguist-language=Python
 *.py linguist-language=Python
-notebooks/* linguist-detectable=false
-
-
-
-# # --- EXCLUDE NON-CODE FILES ---
-# data/* linguist-detectable=false
-# datasets/* linguist-detectable=false
-# checkpoints/* linguist-detectable=false
-# logs/* linguist-detectable=false
-# output/* linguist-detectable=false
-# notebooks/* linguist-detectable=false
-# experiments/* linguist-detectable=false
-# __pycache__/* linguist-detectable=false
-# *.md linguist-detectable=false
-# *.csv linguist-detectable=false
-# *.json linguist-detectable=false
-# *.yml linguist-detectable=false
-# *.yaml linguist-detectable=false
+**/*.ipynb linguist-language=Python
 """
 
 # INITIALIZE 
