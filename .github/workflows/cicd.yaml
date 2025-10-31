@@ -1,0 +1,72 @@
+name: Update .gitattributes Across Repos
+
+on:
+  schedule:
+    - cron: "0 9 1 * *"   # Run monthly at 9:00 UTC on the 1st
+  workflow_dispatch:       # Allow manual run from the Actions tab
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      # Step 3: Create virtual environment and install dependencies
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 4: Create .env dynamically in runner (from GitHub Secrets)
+      - name: Create .env file
+        run: |
+          echo "GITHUB_TOKEN=${{ secrets.PERSONAL_GITHUB_TOKEN }}" >> .env
+
+      # Step 5: Run your updater script (loads .env automatically)
+      - name: Run the .gitattributes updater
+        run: |
+          source venv/bin/activate
+          python gitattribute_automate.py
+
+      # Step 6: Commit and push the log file
+      - name: Commit and push update log
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+        run: |
+          if [ -f update_log.txt ]; then
+            echo "Committing update log..."
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add update_log.txt
+            git commit -m "Log update - $(date -u '+%Y-%m-%d %H:%M:%S') UTC" || echo "No changes to commit"
+            git push https://$GITHUB_TOKEN@github.com/${{ github.repository }}.git HEAD:main
+          else
+            echo "No update_log.txt found, skipping commit."
+          fi
+
+      # Step 7: Read log into env for email
+      - name: Read log into env
+        id: readlog
+        run: |
+          if [ -f update_log.txt ]; then
+            {
+              echo 'LOG_BODY<<EOF'
+              sed -n '1,500p' update_log.txt
+              echo 'EOF'
+            } >> "$GITHUB_ENV"
+          else
+            echo 'LOG_BODY=No log generated for this run.' >> "$GITHUB_ENV"
+          fi
