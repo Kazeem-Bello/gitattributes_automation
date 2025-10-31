@@ -11,6 +11,9 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 file_content = """# --- LANGUAGE CLASSIFICATION FIXES ---
 *.ipynb linguist-language=Python
 *.py linguist-language=Python
+notebooks/* linguist-detectable=false
+
+
 
 # # --- EXCLUDE NON-CODE FILES ---
 # data/* linguist-detectable=false
@@ -26,7 +29,7 @@ file_content = """# --- LANGUAGE CLASSIFICATION FIXES ---
 # *.json linguist-detectable=false
 # *.yml linguist-detectable=false
 # *.yaml linguist-detectable=false
-# """
+"""
 
 # INITIALIZE 
 g = Github(GITHUB_TOKEN)
@@ -47,7 +50,7 @@ for repo in user.get_repos():
             log_entries.append(msg + "\n")
             continue
         if repo.fork:
-            msg = f"⏩ Skipped {repo.name} (forked repo)"
+            msg = f"Skipped {repo.name} (forked repo)"
             print(msg)
             log_entries.append(msg + "\n")
             continue
@@ -63,7 +66,7 @@ for repo in user.get_repos():
                     message=" Update .gitattributes for proper language detection",
                     content=file_content,
                     sha=file.sha,
-                    branch="main"
+                    branch= repo.default_branch 
                 )
                 msg = f"Updated .gitattributes in {repo.name}"
             else:
@@ -75,7 +78,7 @@ for repo in user.get_repos():
                 path=".gitattributes",
                 message="Add .gitattributes for proper language detection",
                 content=file_content,
-                branch="main"
+                branch= repo.default_branch 
             )
             msg = f"Created .gitattributes in {repo.name}"
 

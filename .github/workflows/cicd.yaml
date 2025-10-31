@@ -52,21 +52,9 @@ jobs:
             git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add update_log.txt
             git commit -m "Log update - $(date -u '+%Y-%m-%d %H:%M:%S') UTC" || echo "No changes to commit"
-            git push https://$GITHUB_TOKEN@github.com/${{ github.repository }}.git HEAD:main
+            DEFAULT_BRANCH=$(git remote show origin | grep "HEAD branch" | awk '{print $NF}')
+            git push https://$GITHUB_TOKEN@github.com/${{ github.repository }}.git HEAD:$DEFAULT_BRANCH
           else
             echo "No update_log.txt found, skipping commit."
           fi
 
-      # Step 7: Read log into env for email
-      - name: Read log into env
-        id: readlog
-        run: |
-          if [ -f update_log.txt ]; then
-            {
-              echo 'LOG_BODY<<EOF'
-              sed -n '1,500p' update_log.txt
-              echo 'EOF'
-            } >> "$GITHUB_ENV"
-          else
-            echo 'LOG_BODY=No log generated for this run.' >> "$GITHUB_ENV"
-          fi
