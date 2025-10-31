@@ -53,7 +53,7 @@ jobs:
             git add update_log.txt
             git commit -m "Log update - $(date -u '+%Y-%m-%d %H:%M:%S') UTC" || echo "No changes to commit"
             DEFAULT_BRANCH=$(git remote show origin | grep "HEAD branch" | awk '{print $NF}')
-            git push https://$GITHUB_TOKEN@github.com/${{ github.repository }}.git HEAD:$DEFAULT_BRANCH
+            git push https://$GITHUB_TOKEN@github.com/${{ github.repository }}.git HEAD:$DEFAULT_BRANCH --force
           else
             echo "No update_log.txt found, skipping commit."
           fi
