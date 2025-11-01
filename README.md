@@ -1,5 +1,5 @@
-<h1 align="center">🤖 gitattributes_automation</h1>
-<h3 align="center">Automated GitHub Linguist Configuration and Language Stats Optimization</h3>
+<h1 align="center">LangReflect</h1>
+<h3 align="center">Reflects the True Languages Behind Your GitHub Repositories</h3>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.11-blue?style=flat-square&logo=python" alt="Python Version"/>
@@ -11,11 +11,11 @@
 
 ### Overview
 
-**gitattributes_automation** is a Python-powered DevOps automation tool that ensures consistent and accurate language detection across all your GitHub repositories.  
-It automatically creates or updates a standardized `.gitattributes` file so that **Jupyter Notebooks are correctly classified as Python**, and non-code directories like datasets, logs, and checkpoints are ignored.  
-This helps your **GitHub profile accurately reflect your coding activity** — showing Python as your main language instead of “Jupyter Notebook.”
+**LangReflect** is a Python-powered automation tool that ensures your GitHub repositories accurately reflect the programming languages you’ve actually used.  
+It automatically creates or updates a standardized `.gitattributes` file so that **Jupyter Notebooks are correctly classified as Python**, and non-code directories (like datasets, logs, and checkpoints) are ignored.  
+This ensures your **GitHub profile truly represents your coding activities** and highlights your primary language correctly.
 
-The project uses **GitHub Actions** and **PyGithub** to automatically manage `.gitattributes` files across repositories securely and efficiently.
+The project leverages **GitHub Actions** and **PyGithub** to automate `.gitattributes` management securely and efficiently.
 
 ---
 
@@ -129,7 +129,7 @@ gitattributes_automation/
 
 ---
 
-### ⭐ Acknowledgements
+### Acknowledgements
 
 - [PyGithub](https://github.com/PyGithub/PyGithub) — GitHub API integration  
 - [GitHub Linguist](https://github.com/github/linguist) — Language detection engine  
@@ -137,4 +137,4 @@ gitattributes_automation/
 
 ---
 
-<h3 align="center">💡 Automate once. Stay consistent forever.</h3>
+<h3 align="center">Automate once. Stay consistent forever.</h3>
